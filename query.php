@@ -9,7 +9,7 @@
      
         return $rows;
     }
-    
+
     function deleteBanco($PDO, $tabela, $where){
         $sql = "DELETE FROM $tabela WHERE $where";
         if($result = $PDO->query($sql)){
