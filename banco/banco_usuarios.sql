@@ -16,28 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `categorias`
+-- Table structure for table `usuarios`
 --
 
-DROP TABLE IF EXISTS `categorias`;
+DROP TABLE IF EXISTS `usuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `categorias` (
-  `id_categoria` int(11) NOT NULL AUTO_INCREMENT,
-  `categoria` varchar(45) NOT NULL,
-  `preco_imposto` int(11) NOT NULL,
-  PRIMARY KEY (`id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+CREATE TABLE `usuarios` (
+  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `login` varchar(45) NOT NULL,
+  `senha` varchar(45) NOT NULL,
+  PRIMARY KEY (`id_usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `categorias`
+-- Dumping data for table `usuarios`
 --
 
-LOCK TABLES `categorias` WRITE;
-/*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-INSERT INTO `categorias` VALUES (1,'Alimento',12),(2,'Produtos de limpeza',0);
-/*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+INSERT INTO `usuarios` VALUES (1,'admin','admin');
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-13 16:37:23
+-- Dump completed on 2020-03-13 16:37:24

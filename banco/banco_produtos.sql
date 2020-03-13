@@ -40,7 +40,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (1,'bla',3,'','',0),(2,'Macarrao',2,'9.99','1.56',1),(3,'vall',19,'50','5',1),(4,'blablao',30,'50','5',1),(5,'sadsa',30,'50','5',1),(6,'asas',500,'300','20',1),(7,'asas2',500,'300','20',1),(8,'asas3',20,'5.00','7',1),(9,'sasa',11,'121','1',1),(10,'sasa3',11,'121','1',1),(11,'pao',20,'2','2',1),(12,'Produto2',500,'5.00','1',1),(13,'dsadsa',500,'5','1',1),(14,'Produto3',300,'5.84','5',1),(15,'Detergente',10,'5.99','5',2);
+INSERT INTO `produtos` VALUES (1,'bla',3,'','',0),(2,'Macarrao',2,'9.99','1.56',1),(3,'vall',4,'50','5',1),(4,'blablao',27,'50','5',1),(5,'sadsa',30,'50','5',1),(6,'asas',500,'300','20',1),(7,'asas2',500,'300','20',1),(8,'asas3',20,'5.00','7',1),(9,'sasa',11,'121','1',1),(10,'sasa3',11,'121','1',1),(11,'pao',20,'2','2',1),(12,'Produto2',500,'5.00','1',1),(13,'dsadsa',500,'5','1',1),(14,'Produto3',300,'5.84','5',1),(15,'Detergente',10,'5.99','5',2);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-13  1:12:16
+-- Dump completed on 2020-03-13 16:37:24
