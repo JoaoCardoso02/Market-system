@@ -94,3 +94,24 @@ li{
   display: flex;
   justify-content: center;
 }
+#formLogin{
+  padding: 5rem;
+  color: #fff;
+  background-color: #4b4276;
+  border-radius: 8%;
+  box-shadow: 34px -10px gray;
+}
+.botaoLogin{
+  color: #fff !important;
+  background-color: #72488C !important;
+  border-color: #72488C !important;
+}
+.botaoLogin:hover{
+  background-color: #7B4282 !important;
+  border-color: #7B4282 !important;
+}
+.formBotao{
+  margin-bottom: 0 !important;
+  display: flex;
+  justify-content: center;
+}

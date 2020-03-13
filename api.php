@@ -15,5 +15,7 @@
         print_r(alteraBanco(conexao(), $dados['colunasArray'], $dados['dados'], $dados['tabela'], $dados['where']));
     } elseif ($function == "insertBanco"){
         print_r(insertBanco(conexao(), $dados['colunasArray'], $dados['dados'], $dados['tabela']));
+    } elseif ($function == "login") {
+        login();
     }
 ?>

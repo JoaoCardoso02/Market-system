@@ -6,7 +6,6 @@
         $sql = "SELECT $items FROM $tabela WHERE $where";
         $result = $PDO->query($sql);
         $rows = $result->fetchAll(PDO::FETCH_ASSOC);
-     
         return $rows;
     }
 
@@ -72,5 +71,17 @@
         }else{
             return FALSE;
         }
+    }
+    function login(){
+        $login = $_POST['login'];
+        $senha = $_POST['senha'];
+        $loginSql = 'login = '.$login;
+        $usuario = selectBanco(conexao(), '*', 'usuarios', "login = '".$login."'")[0];
+        if ($usuario['login'] == $login && $usuario['senha'] == $senha) {
+            session_start();
+            $_SESSION['login'] = $login;
+        }
+        header('Location: ./index.php');
+
     }
 ?>

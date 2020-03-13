@@ -14,10 +14,10 @@ new Vue({
         fetch('./api.php?funcao=selectBanco&tabela=categorias&where=1')
             .then(resposta => resposta.json())
             .then(categorias => this.categorias = categorias)
-        
+
     },
     methods: {
-        refresh(){
+        refresh() {
             fetch('./api.php?funcao=selectBanco&tabela=produtos,categorias&where=categorias.id_categoria=produtos.cod_categoria')
                 .then(resposta => resposta.json())
                 .then(products => this.products = products)
@@ -32,26 +32,26 @@ new Vue({
                     idSql = id;
                     id = index;
                     console.log(elements.estoque);
-                    
+
                 }
             })
-            
+
             var numData = parseInt(this.products[id].estoque);
-            
-            
+
+
             numNovo = numData - num;
-     
-            
-            if (num > numData) {                
+
+
+            if (num > numData) {
                 alert("O número inserido é maior que o disponível no estoque!");
-            }else{
-                fetch('./api.php?funcao=alteraBanco&colunasArray=estoque&dados='+numNovo+'&tabela=produtos&where=id='+idSql)
+            } else {
+                fetch('./api.php?funcao=alteraBanco&colunasArray=estoque&dados=' + numNovo + '&tabela=produtos&where=id=' + idSql)
                 this.refresh()
                 //location.reload();
             }
-            
+
         },
-        addProduto(){
+        addProduto() {
             var nome = document.getElementById('nome').value;
             var categoria = document.getElementById('categoria').value;
             var estoque = document.getElementById('estoque').value;
@@ -62,30 +62,27 @@ new Vue({
             });
 
             if (nome == false || !parseInt(estoque) || !parseInt(imposto) || !parseInt(preco)) {
-                alert("Dados inválidos!")                
-            }else{
-                fetch('./api.php?funcao=insertBanco&colunasArray=nome,estoque,preco,preco_imposto,cod_categoria&dados="'+nome+'",'+estoque+','+preco+','+imposto+','+id_categoria+'&tabela=produtos')
+                alert("Dados inválidos!")
+            } else {
+                fetch('./api.php?funcao=insertBanco&colunasArray=nome,estoque,preco,preco_imposto,cod_categoria&dados="' + nome + '",' + estoque + ',' + preco + ',' + imposto + ',' + id_categoria + '&tabela=produtos')
                 location.reload();
             }
         },
-        addCategoria(){
+        addCategoria() {
             var nomeCategoria = document.getElementById('nomeCategoria').value;
 
             if (nomeCategoria == '') {
-                alert("Dados inválidos!")                
-            }else{
-                fetch('./api.php?funcao=insertBanco&colunasArray=categoria&dados="'+nomeCategoria+'"&tabela=categorias')
+                alert("Dados inválidos!")
+            } else {
+                fetch('./api.php?funcao=insertBanco&colunasArray=categoria&dados="' + nomeCategoria + '"&tabela=categorias')
                 location.reload();
             }
-        },
-        print(){
-            console.log(this.products);
         }
     },
     computed: {
-      currentTabComponent: function () {
-        return 'tab-' + this.currentTab.toLowerCase()
-      }
+        currentTabComponent: function () {
+            return 'tab-' + this.currentTab.toLowerCase()
+        }
     }
 });
 

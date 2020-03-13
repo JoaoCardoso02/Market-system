@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercado</title>
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/accd17828a.js" crossorigin="anonymous"></script>
+</head>
+<div id="app">
+    <div class="wrapper">
+        <div class="sidebar">
+
+            <h2>Mercado</h2>
+            <ul>
+                <li v-for="tab in tabs" v-bind:key="tab" v-on:click="currentTab = tab"><a class="menu-link"><i
+                            class="fas fa-home"></i>{{ tab }}</a></li>
+                <li><a class="menu-link"><i class="fas fa-shopping-cart"></i>Carrinho</a></li>
+
+            </ul>
+        </div>
+        <div class="main_content" v-bind:class="{ displayNone: currentTab !== 'Produtos' }">
+            <div class="header">Produtos</div>
+            <div class="listagem">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Estoque</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Preço</th>
+                            <th scope="col">Preço Imposto</th>
+                            <th scope="col">Preço Estoque</th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Função</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="produto in products">
+                            <td>{{ produto.nome }}</td>
+                            <td>{{ produto.estoque }}</td>
+                            <td>{{ produto.categoria }}</td>
+                            <td>{{ produto.preco }}</td>
+                            <td>{{ produto.preco_imposto }}</td>
+                            <td>{{ produto.preco * produto.estoque }}</td>
+                            <td><input placeholder="Quantidade a ser comprada" v-bind:id="produto.id" type="text"
+                                    class="form-control">
+                            </td>
+                            <td><button type="button" v-on:click="compraProduto(produto.id)"
+                                    v-bind:idProdutoSubmit="produto.id" class="btn btn-warning">Vender</button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="main_content" v-bind:class="{ displayNone: currentTab !== 'Cadastrar produtos' }">
+            <div class="header">Cadastrar produtos</div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <form class="form">
+                        <h3 class="tituloAdd DPFlexJCC">Adicionar produto</h3>
+                        <div class="form-group">
+                            <label for="nome">Nome do Produto</label>
+                            <input type="text" class="form-control" id="nome" placeholder="Nome do Produto">
+                        </div>
+                        <div class="form-group">
+                            <label for="categoria">Categoria</label>
+                            <select class="form-control" id="categoria">
+                                <option v-for="categoria in categorias">{{ categoria.categoria }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="estoque">Quantidade de produtos no estoque</label>
+                            <input type="text" class="form-control" id="estoque" placeholder="Produtos no estoque">
+                        </div>
+                        <div class="form-group">
+                            <label for="imposto">Percentual do imposto</label>
+                            <input type="text" class="form-control" id="imposto" placeholder="Ex: 15.">
+                        </div>
+                        <div class="form-group">
+                            <label for="preco">Preço do produto</label>
+                            <input type="text" class="form-control" id="preco"
+                                placeholder="Preço do produto. Ex: 49.99">
+                        </div>
+                        <div class="form-group DPFlexJCC">
+                            <button v-on:click="addProduto" class="btn btn-primary">Adicionar produto</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+                    <form class="form">
+                        <h3 class="tituloAdd DPFlexJCC">Adicionar categoria</h3>
+                        <div class="form-group">
+                            <label for="nomeCategoria">Nome da cateogira</label>
+                            <input type="text" class="form-control" id="nomeCategoria" placeholder="Nome da categoria">
+                        </div>
+                        <div class="form-group DPFlexJCC">
+                            <button v-on:click="addCategoria" type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="./assets/js/main.js"></script>
+
+
+<body>
+
+</body>
+
+</html>

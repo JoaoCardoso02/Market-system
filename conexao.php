@@ -3,7 +3,7 @@
 function conexao(){
     define( 'MYSQL_HOST', 'localhost' );
     define( 'MYSQL_USER', 'root' );
-    define( 'MYSQL_PASSWORD', '' );
+    define( 'MYSQL_PASSWORD', 'password' );
     define( 'MYSQL_DB_NAME', 'banco' );
     try
     {
@@ -15,6 +15,4 @@ function conexao(){
         echo 'Erro ao conectar com o MySQL: ' . $e->getMessage();
     }
 }
-
-#print_r($rows);
 ?>
