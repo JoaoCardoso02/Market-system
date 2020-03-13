@@ -72,9 +72,25 @@ body{
   color: #717171;
   border-bottom: 1px solid #e0e4e8;
 }
-/* .listagem{
-    margin-top: 2rem;
-} */
+.listagem{
+    padding: 1rem;
+}
 .item{
     border-top: none !important;
+}
+li{
+  cursor: pointer;
+}
+.displayNone{
+  display: none !important;
+}
+.form{
+  padding: 4rem;
+}
+.tituloAdd{
+  margin-bottom: 2rem;
+}
+.DPFlexJCC{
+  display: flex;
+  justify-content: center;
 }

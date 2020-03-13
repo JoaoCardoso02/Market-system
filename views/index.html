@@ -12,14 +12,15 @@
 <div id="app">
     <div class="wrapper">
         <div class="sidebar">
+            
             <h2>Mercado</h2>
             <ul>
-                <li><a class="menu-link" href="#"><i class="fas fa-home"></i>Produtos</a></li>
-                <li><a class="menu-link" href="#"><i class="fas fa-user"></i>Cadastrar produtos</a></li>
+                <li v-for="tab in tabs" v-bind:key="tab" v-on:click="currentTab = tab"><a class="menu-link" ><i class="fas fa-home"></i>{{ tab }}</a></li>
             </ul>
         </div>
-        <div class="main_content">
+        <div class="main_content" v-bind:class="{ displayNone: currentTab !== 'Produtos' }">
             <div class="header">Produtos</div>
+            <button v-on:click="print">bla</button>
             <div class="listagem">
                 <table class="table">
                     <thead>
@@ -43,15 +44,62 @@
                             <td>{{ produto.preco }}</td>
                             <td>{{ produto.preco_imposto }}</td>
                             <td>{{ produto.preco * produto.estoque }}</td>
-                            <td><input v-bind:text="mudaValor" v-bind:id="produto.id" type="email" class="form-control">
+                            <td><input placeholder="Quantidade a ser comprada" v-bind:id="produto.id" type="text" class="form-control">
                             </td>
-                            <td><button type="button" v-on:click="printaValor(produto.id)"
+                            <td><button type="button" v-on:click="compraProduto(produto.id)"
                                     v-bind:idProdutoSubmit="produto.id" class="btn btn-warning">Vender</button>
                             </td>
                         </tr>
 
                     </tbody>
                 </table>
+            </div>
+        </div>
+        <div class="main_content"  v-bind:class="{ displayNone: currentTab !== 'Cadastrar produtos' }">
+            <div class="header">Cadastrar produtos</div>
+            <div class="row">
+                <div class="col-lg-6">
+                    <form class="form">
+                        <h3 class="tituloAdd DPFlexJCC">Adicionar produto</h3>
+                        <div class="form-group">
+                          <label for="nome">Nome do Produto</label>
+                          <input type="text" class="form-control" id="nome" placeholder="Nome do Produto">
+                        </div>
+                        <div class="form-group">
+                            <label for="categoria">Categoria</label>
+                            <select class="form-control" id="categoria">
+                                <option v-for="categoria in categorias">{{ categoria.categoria }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="estoque">Quantidade de produtos no estoque</label>
+                            <input type="text" class="form-control" id="estoque" placeholder="Produtos no estoque">
+                        </div>
+                        <div class="form-group">
+                            <label for="imposto">Percentual do imposto</label>
+                            <input type="text" class="form-control" id="imposto" placeholder="Ex: 15.">
+                        </div>
+                        <div class="form-group">
+                            <label for="preco">Preço do produto</label>
+                            <input type="text" class="form-control" id="preco" placeholder="Preço do produto. Ex: 49.99">
+                        </div>
+                        <div class="form-group DPFlexJCC">
+                            <button v-on:click="addProduto" class="btn btn-primary">Adicionar produto</button>
+                        </div>
+                      </form>
+                </div>
+                <div class="col-lg-6">
+                    <form class="form">
+                        <h3 class="tituloAdd DPFlexJCC">Adicionar categoria</h3>
+                        <div class="form-group">
+                          <label for="nomeCategoria">Nome da cateogira</label>
+                          <input type="text" class="form-control" id="nomeCategoria" placeholder="Nome da categoria">
+                        </div>
+                        <div class="form-group DPFlexJCC">
+                            <button v-on:click="addCategoria" type="submit" class="btn btn-primary">Enviar</button>
+                        </div>
+                      </form>
+                </div>
             </div>
         </div>
     </div>

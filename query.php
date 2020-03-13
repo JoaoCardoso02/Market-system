@@ -25,19 +25,25 @@
             if($i == count($colunasArray) - 1){
                 
                 if (isset($colunas)) {
-                    $colunas = $colunas.$colunasArray[$i]." = '".$dados[$i]."' ";
+                    $colunas = $colunas.$colunasArray[$i]." = ".$dados[$i]." ";
                 }else{
-                    $colunas = $colunasArray[$i]." = '".$dados[$i]."' ";
-                    
+                    if ($colunasArray != array()) {
+                        $colunas = $colunasArray." = ".$dados." ";    
+                    }else{
+                        $colunas = $colunasArray[$i]." = ".$dados[$i]." ";
+                    }
                 }
 
                 
             }else{
                 if (isset($colunas)) {
-                    $colunas = $colunas.$colunasArray[$i]." = '".$dados[$i]."', ";
+                    $colunas = $colunas.$colunasArray[$i]." = ".$dados[$i].", ";
                 }else{
-
-                    $colunas = $colunasArray[$i]." = '".$dados[$i]."', ";
+                    if ($colunasArray != array()) {
+                        $colunas = $colunasArray." = ".$dados.", ";    
+                    }else{
+                        $colunas = $colunasArray[$i]." = ".$dados[$i].", ";
+                    }
                 }
             }
             
@@ -51,31 +57,16 @@
     }
     
     function insertBanco($PDO, $colunasArray, $dados, $tabela){
-        for ($i=0; $i <count($colunasArray) ; $i++) { 
-            if($i == count($colunasArray) - 1){
-                
-                if (isset($colunas)) {
-                    $colunas = $colunas.$colunasArray[$i];
-                    $values = $values.'"'.$dados[$i].'"';
-                }else{
-                    $colunas = $colunasArray[$i];
-                    $values = '"'.$dados[$i].'"';
-                }
-
-                
+        $dados = explode(',', $dados);
+        for ($i=0; $i <count($dados) ; $i++) { 
+            if (isset($values)) {
+                $values = $values.','.$dados[$i];
             }else{
-                if (isset($colunas)) {
-                    $colunas = $colunas.$colunasArray[$i].', ';
-                    $values = '"'.$values.$dados[$i].'", ';
-                }else{
-                    $colunas = $colunasArray[$i].', ';
-                    $values = '"'.$dados[$i].'", ';
-                }
+                $values = $dados[$i];
             }
-            
         }
-        $sql = "INSERT INTO $tabela ($colunas) values ($values)";
-        print($sql);
+        
+        $sql = "INSERT INTO $tabela ($colunasArray) values ($values)";
         if($result = $PDO->query($sql)){
             return TRUE;
         }else{
