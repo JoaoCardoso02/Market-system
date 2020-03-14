@@ -16,13 +16,15 @@
 
             <h2>Mercado</h2>
             <ul>
-                <li v-for="tab in tabs" v-bind:key="tab" v-on:click="currentTab = tab"><a class="menu-link"><i
-                            class="fas fa-home"></i>{{ tab }}</a></li>
-                <li><a class="menu-link"><i class="fas fa-shopping-cart"></i>Carrinho</a></li>
-
+                <li v-for="tab in tabs" :key="tab" @click="currentTab = tab">
+                    <a class="menu-link"><i class="fas fa-home"></i>{{ tab }}</a>
+                </li>
+                <li @click="logout">
+                    <a class="menu-link"><i class="fas fa-sign-out-alt"></i>Sair</a>
+                </li>
             </ul>
         </div>
-        <div class="main_content" v-bind:class="{ displayNone: currentTab !== 'Produtos' }">
+        <div class="main_content" :class="{ displayNone: currentTab !== 'Produtos' }">
             <div class="header">Produtos</div>
             <div class="listagem">
                 <table class="table">
@@ -32,26 +34,32 @@
                             <th scope="col">Estoque</th>
                             <th scope="col">Categoria</th>
                             <th scope="col">Preço</th>
-                            <th scope="col">Preço Imposto</th>
+                            <th scope="col">Porcentagem Imposto</th>
                             <th scope="col">Preço Estoque</th>
+                            <th scope="col">Preço Pago Imposto/Item</th>
                             <th scope="col">Quantidade</th>
-                            <th scope="col">Função</th>
+                            <th scope="col colBlock">Função</th>
 
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="produto in products">
+                        <tr v-for="(produto, index) in products">
                             <td>{{ produto.nome }}</td>
                             <td>{{ produto.estoque }}</td>
                             <td>{{ produto.categoria }}</td>
-                            <td>{{ produto.preco }}</td>
-                            <td>{{ produto.preco_imposto }}</td>
-                            <td>{{ produto.preco * produto.estoque }}</td>
-                            <td><input placeholder="Quantidade a ser comprada" v-bind:id="produto.id" type="text"
-                                    class="form-control">
+                            <td>R$ {{ produto.preco }}</td>
+                            <td>{{ produto.porcentagem_imposto }}%</td>
+                            <td>R$ {{ Math.round(produto.preco * produto.estoque) }}</td>
+                            <td>R$ {{ produto.valor_imposto.slice(0, 8) }}</td>
+                            <td><input placeholder="Quantidade a ser vendida" v-model="produto.qtd" :id="produto.id" :max="produto.estoque" type="number"
+                                    class="form-control inputVendida">
                             </td>
-                            <td><button type="button" v-on:click="compraProduto(produto.id)"
-                                    v-bind:idProdutoSubmit="produto.id" class="btn btn-warning">Vender</button>
+                            <td class="colBlock"><button type="button" v-on:click="modalProduto(produto.id)"
+                                :idProdutoSubmit="produto.id" class="btn btn-warning" data-toggle="modal" data-target="#modalVenderProduto">Vender</button>
+                                <button type="button" v-on:click="modalEditarProduto(produto.id)"
+                                :idProdutoSubmit="produto.id" class="btn btn-success editar" data-toggle="modal" data-target="#modalEditar">Editar</button>
+                                <button type="button" v-on:click="modalExcluiProduto(produto.id)"
+                                :idProdutoSubmit="produto.id" class="btn btn-danger editar" data-toggle="modal" data-target="#modalExcluir">Excluir</button>
                             </td>
                         </tr>
 
@@ -59,11 +67,11 @@
                 </table>
             </div>
         </div>
-        <div class="main_content" v-bind:class="{ displayNone: currentTab !== 'Cadastrar produtos' }">
+        <div class="main_content" :class="{ displayNone: currentTab !== 'Cadastrar' }">
             <div class="header">Cadastrar produtos</div>
             <div class="row">
                 <div class="col-lg-6">
-                    <form class="form">
+                    <form class="form" action="#">
                         <h3 class="tituloAdd DPFlexJCC">Adicionar produto</h3>
                         <div class="form-group">
                             <label for="nome">Nome do Produto</label>
@@ -78,10 +86,6 @@
                         <div class="form-group">
                             <label for="estoque">Quantidade de produtos no estoque</label>
                             <input type="text" class="form-control" id="estoque" placeholder="Produtos no estoque">
-                        </div>
-                        <div class="form-group">
-                            <label for="imposto">Percentual do imposto</label>
-                            <input type="text" class="form-control" id="imposto" placeholder="Ex: 15.">
                         </div>
                         <div class="form-group">
                             <label for="preco">Preço do produto</label>
@@ -100,27 +104,105 @@
                             <label for="nomeCategoria">Nome da cateogira</label>
                             <input type="text" class="form-control" id="nomeCategoria" placeholder="Nome da categoria">
                         </div>
+                        <div class="form-group">
+                            <label for="imposto">Percentual de imposto</label>
+                            <input type="number" class="form-control" id="imposto" placeholder="Ex: 15.">
+                        </div>
                         <div class="form-group DPFlexJCC">
-                            <button v-on:click="addCategoria" type="submit" class="btn btn-primary">Enviar</button>
+                            <button @click="addCategoria" type="submit" class="btn btn-primary">Adicionar categoria</button>
+                        </div>
+                        <div v-if="sucesso" class="form-group DPFlexJCC">
+                          <h5 class="green">Adicionado com sucesso!</h5>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalVenderProduto" tabindex="-1" role="dialog" aria-labelledby="modalVender" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalVender">Carrinho</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <div class="infoVenda">
+                    <h4>Produto: {{ nomeProduto }}</h4>
+                    <ul v-if="valorTotalVenda">
+                        <li>Preço unitário: {{ preco }}</li>
+                        <li>Porcentagem imposto: {{ percentImposto }}%</li>
+                        <li>Preço total de imposto: {{ precoImposto }}</li>
+                        <li>Preço total sem imposto: {{ precoSemImposto }}</li>
+                        <li class="red">Preço de venda: {{ valorTotalVenda }}</li>
+                    </ul>
+                    <h5 class="red" v-if="!valorTotalVenda">Informe um valor válido</h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              <button v-if="valorTotalVenda" type="button" @click="vendeProduto(idProduto)" class="btn btn-warning">Confirmar venda</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="modalEditar" tabindex="-1" role="dialog" aria-labelledby="modalEditarProduto" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalEditarProduto">Edição de produto</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label for="inputAlteraQtd">Quantidade no estoque</label>
+                <input placeholder="Nova quantidade do estoque" v-model="novaQtdAltera" id="inputAlteraQtd" type="number"
+                class="form-control inputVendida">
+              </div>
+
+              <div class="form-group">
+                <label for="inputAlteraPreco">Valor da unidade do produto</label>
+                <input placeholder="Novo preço" v-model="novoPrecoAltera" id="inputAlteraPreco" type="number"
+                class="form-control inputVendida">
+              </div>modalEditar
+              modalEditar
+              modalEditar
+
+              <label for="novaQtdEstoque">Nova quantidade do estoque para: {{ novaQtdAltera }}</label>   
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              <button type="button" @click="alteraEstoque(idAlteraEstoque)" class="btn btn-success">Alterar estoque</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="modalExcluir" tabindex="-1" role="dialog" aria-labelledby="modalExcluirProduto" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalExcluirProduto">Exclusão de produto</h5>
+              <button type="button" class="close closeDeleta" data-dismiss="modal" aria-label="Fechar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h6 class="red">Tem certeza que deseja excluir este produto?</h6>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              <button type="button" @click="deletaProduto(idDeleta)" class="btn btn-danger">Excluir</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

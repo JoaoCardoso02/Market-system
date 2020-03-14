@@ -27,11 +27,11 @@ CREATE TABLE `produtos` (
   `nome` varchar(45) DEFAULT NULL,
   `estoque` int(11) NOT NULL,
   `preco` varchar(10) NOT NULL,
-  `preco_imposto` varchar(10) NOT NULL,
   `cod_categoria` int(11) NOT NULL,
+  `valor_imposto` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `pk_categoria_idx` (`cod_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +40,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (1,'bla',3,'','',0),(2,'Macarrao',2,'9.99','1.56',1),(3,'vall',4,'50','5',1),(4,'blablao',27,'50','5',1),(5,'sadsa',30,'50','5',1),(6,'asas',500,'300','20',1),(7,'asas2',500,'300','20',1),(8,'asas3',20,'5.00','7',1),(9,'sasa',11,'121','1',1),(10,'sasa3',11,'121','1',1),(11,'pao',20,'2','2',1),(12,'Produto2',500,'5.00','1',1),(13,'dsadsa',500,'5','1',1),(14,'Produto3',300,'5.84','5',1),(15,'Detergente',10,'5.99','5',2);
+INSERT INTO `produtos` VALUES (40,'Celular J5',25,'799.99',7,'153.9978'),(41,'MaÃ§a',50,'3.90',10,'0.46399999999999997'),(42,'Vassoura',30,'17.99',2,'2.5186');
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +53,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-03-13 16:37:24
+-- Dump completed on 2020-03-14 18:36:29

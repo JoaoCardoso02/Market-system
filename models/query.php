@@ -1,6 +1,6 @@
 <?php
 
-    include './conexao.php';
+    include '../config/conexao.php';
 
     function selectBanco($PDO, $items, $tabela, $where){
         $sql = "SELECT $items FROM $tabela WHERE $where";
@@ -21,38 +21,20 @@
     
     function alteraBanco($PDO, $colunasArray, $dados, $tabela, $where){
         for ($i=0; $i <count($colunasArray) ; $i++) { 
-            if($i == count($colunasArray) - 1){
-                
-                if (isset($colunas)) {
-                    $colunas = $colunas.$colunasArray[$i]." = ".$dados[$i]." ";
+            $dados = explode(',', $dados);
+            $colunasArray = explode(',',$colunasArray);
+            foreach ($colunasArray as $key => $coluna) {
+                if (!isset($colunas)) {
+                    $colunas = $coluna.' = '.$dados[$key];
                 }else{
-                    if ($colunasArray != array()) {
-                        $colunas = $colunasArray." = ".$dados." ";    
-                    }else{
-                        $colunas = $colunasArray[$i]." = ".$dados[$i]." ";
-                    }
+                    $colunas = $colunas.','.$coluna.' = '.$dados[$key];
                 }
-
                 
-            }else{
-                if (isset($colunas)) {
-                    $colunas = $colunas.$colunasArray[$i]." = ".$dados[$i].", ";
-                }else{
-                    if ($colunasArray != array()) {
-                        $colunas = $colunasArray." = ".$dados.", ";    
-                    }else{
-                        $colunas = $colunasArray[$i]." = ".$dados[$i].", ";
-                    }
-                }
+                
             }
-            
         }
         $sql = "UPDATE $tabela SET $colunas WHERE $where";
-        if($result = $PDO->query($sql)){
-            return TRUE;
-        }else{
-            return FALSE;
-        }
+        return json_encode($result = $PDO->query($sql));
     }
     
     function insertBanco($PDO, $colunasArray, $dados, $tabela){
@@ -72,16 +54,16 @@
             return FALSE;
         }
     }
-    function login(){
-        $login = $_POST['login'];
-        $senha = $_POST['senha'];
-        $loginSql = 'login = '.$login;
-        $usuario = selectBanco(conexao(), '*', 'usuarios', "login = '".$login."'")[0];
-        if ($usuario['login'] == $login && $usuario['senha'] == $senha) {
+    function login($PDO, $login, $senha){
+        #$result = selectBanco($PDO, '*', 'usuarios', 'login = "'.$login.'" and senha "'.$senha.'"');
+        $sql = "SELECT * FROM usuarios WHERE login = '$login' AND senha = '$senha'";
+        $result = $PDO->query($sql);
+        $rows = $result->fetchAll(PDO::FETCH_ASSOC)[0];
+        
+        if ($rows) {
             session_start();
             $_SESSION['login'] = $login;
+            header('Location: ../index.php');
         }
-        header('Location: ./index.php');
-
     }
 ?>

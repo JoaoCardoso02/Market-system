@@ -74,6 +74,7 @@ body{
 }
 .listagem{
     padding: 1rem;
+    font-size: 12px !important;
 }
 .item{
     border-top: none !important;
@@ -114,4 +115,20 @@ li{
   margin-bottom: 0 !important;
   display: flex;
   justify-content: center;
+}
+.red{
+  color:red;
+  font-weight: 600;
+}
+.inputVendida{
+  font-size: 13px !important;
+}
+.editar{
+  margin-left: .3rem !important;
+}
+.colBlock{
+  display: inline-flex;
+}
+.green{
+  color: rgb(79, 182, 79);
 }
