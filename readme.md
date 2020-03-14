@@ -56,6 +56,6 @@ Gostei da experiência que o projeto me trouxe, juntamente com a pressão de tem
 
 # Links e Contato
 
-[LinkedIn](http://linkedin.com/in/joão-lucas-cardoso-87398717b).
-[GitHub](https://github.com/JoaoCardoso02)
-joaolucas.cardoso02@gmail.com
++ [LinkedIn](http://linkedin.com/in/joão-lucas-cardoso-87398717b)
++ [GitHub](https://github.com/JoaoCardoso02)
++ joaolucas.cardoso02@gmail.com
