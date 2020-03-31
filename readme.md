@@ -35,7 +35,7 @@ As `views` guardam o `HTML` da aplicação.
 
 # Aplicação
 
-Ao entrar em `localhost/SoftExpert` no navegador, seremos redirecionados para a página de login que ao efetuarmos com o login `admin` e senha `admin`, definidas no banco, entraremos dentro da aplicação Mercado, onde teremos acesso à visualização dos produtos do mercado, juntamente com as opções de vender, editar, e excluir os produtos.
+Ao entrar em `localhost/Market-system` no navegador, seremos redirecionados para a página de login que ao efetuarmos com o login `admin` e senha `admin`, definidas no banco, entraremos dentro da aplicação Mercado, onde teremos acesso à visualização dos produtos do mercado, juntamente com as opções de vender, editar, e excluir os produtos.
 
 No menu esquerdo teremos a opção `Cadastrar`, onde tal opção nos leva para a página de criação de produtos e categorias.
 
