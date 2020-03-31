@@ -6,7 +6,5 @@
         include 'views/mercado.html'; 
     }else{
         include 'views/index.html';
-    }
-
-    
+    }    
 ?>
